@@ -1,0 +1,443 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<style>
+    html, body {
+        margin: 0;
+        background: -webkit-linear-gradient(left, #93ffe6 30%, #38ffff 90%);
+
+    }
+
+    ::-webkit-scrollbar {
+        width: 0px; /* remove scrollbar space */
+        background: transparent; /* optional: just make scrollbar invisible */
+    }
+
+    /* optional: show position indicator in red */
+    ::-webkit-scrollbar-thumb {
+        background: transparent;
+    }
+
+    #template {
+        display: none;
+    }
+
+    .section {
+        position: relative;
+        padding-bottom: 150px;
+    }
+
+    .glide-logo {
+        fill: grey;
+    }
+
+    .section-slashed {
+        width: 100%;
+        height: 20vh;
+        background-color: #7DCF32;
+        position: absolute;
+        bottom: 0px;
+        transform: skewY(-0deg)
+    }
+
+    .section-slashed::before {
+        content: '';
+        background-color: #7DCF32;
+        display: inline-block;
+        width: 100%;
+        height: 20vh;
+        position: absolute;
+        top: -210px;
+        transform: skewY(-3deg);
+    }
+
+    .container {
+        margin-top: 40px;
+        position: relative;
+    }
+
+    .post {
+        padding: 20px;
+        border: 2px solid white;
+        margin: 0px;
+        background: white;
+        margin-bottom: 40px;
+        box-shadow: 0px 3px 19px 2px #52525214;
+        border-radius: 30px;
+        position: relative;
+        scroll-snap-align: start;
+    }
+
+    .post img {
+        width: 100%;
+        border: 10px solid white;
+        border-radius: 32px;
+    }
+
+
+    .post .content {
+        padding: 20px;
+        border: 0;
+    }
+
+    .post .content p {
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .post .content h1 {
+        color: #7DCF32;
+        margin-top: 0;
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: 0px;
+    }
+
+    .control {
+        width: 300px;
+        position: fixed;
+    }
+
+    .control .btn {
+        margin-bottom: 10px;
+    }
+
+    .control.mobile {
+        position: relative;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .control.mobile .btn {
+        text-align: center;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: left;
+    }
+
+    .btn.active {
+        background-color: white;
+        box-shadow: 0 4px 4px rgba(50, 50, 93, .1);
+        color: #7DCF32;
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        color: #7DCF32;
+        background: #edf1f4;
+    }
+
+    .post .content .body h3 {
+        font-size: 0.95rem;
+        margin: 20 0;
+    }
+
+    .post .date {
+        margin: 0;
+        text-align: right;
+    }
+
+    .post .post-information i.fa-user-circle {
+        font-size: 32px;
+    }
+
+    .post .post-information span {
+        vertical-align: super;
+    }
+
+    .post .post-information .date-text {
+        vertical-align: bottom;
+    }
+
+    .post .post-information span span {
+        margin-left: 10px;
+    }
+
+    .post .content .body iframe {
+        width: 100%;
+        height: 350px;
+    }
+
+    .post .content .tag-viewport {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .post .content .btn {
+        background-color: #f9f9f9;
+        margin-top: 30px;
+        width: auto;
+        padding: 10px 30px;
+        font-weight: bold;
+    }
+
+    .post .content .btn:hover {
+        background-color: #7ecf31;
+        color: white;
+    }
+
+    .post .content .btn:focus {
+        box-shadow: none;
+    }
+
+    .post .content .tag-viewport .tag {
+        padding: 5px 30px;
+        background-color: #7DCF32;
+        color: white;
+        font-weight: bold;
+        display: inline-block;
+        border-radius: 30px;
+        font-size: 12px;
+    }
+
+    .post .content .body div {
+        width: auto !important;
+    }
+
+    .posts {
+        height: 79vh;
+        overflow-y: scroll;
+        border-radius: 30px;
+        padding: 20px;
+        /*scroll-snap-type: y mandatory;*/
+    }
+
+
+
+    .header  {
+        width: 100%;
+        top: 0;
+        z-index: 10000;
+    }
+
+
+
+</style>
+
+<div class="header">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-3">
+                <svg class='glide-logo' width="200px" viewBox="0 0 1048 341" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                     class="ng-scope">
+                    <defs>
+                        <polygon id="path-1" points="0 340.157 1047.685 340.157 1047.685 0 0 0"></polygon>
+                    </defs>
+                    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Logo-/-Glide-/-Student" transform="translate(1.000000, -1.000000)">
+                            <g id="Page-1" transform="translate(-1.000000, 1.000000)">
+                                <path d="M156.9111,146.6086 C161.9371,151.2086 167.1531,155.6416 172.5271,159.8276 C181.8931,167.1196 191.8231,173.7586 202.1411,179.6326 C206.6521,182.2016 211.2431,184.6706 215.9701,186.8216 C219.3701,188.3726 223.0041,189.2256 226.4101,190.6716 C227.9421,191.0486 229.3151,191.2676 230.5251,191.3216 C238.8451,191.6956 234.9461,183.3046 228.9931,176.9896 C223.0771,170.7166 214.6481,163.9946 204.6151,157.5616 C184.3341,144.5486 166.0061,137.0386 151.2431,135.6536 C149.7141,135.5116 148.2261,135.4336 146.7761,135.4206 C146.3531,135.4166 145.9371,135.4206 145.5231,135.4286 C145.5031,135.4426 145.4791,135.4546 145.4591,135.4706 C149.1471,139.3326 153.0031,143.0306 156.9111,146.6086"
+                                      id="Fill-1" fill="#7DCF32"></path>
+                                <path d="M143.1965,221.9275 C143.3035,222.0285 143.4145,222.1355 143.5205,222.2295 C143.6455,222.3415 143.7685,222.4545 143.8885,222.5725 C146.1235,224.7405 152.2025,229.9055 159.2075,233.9315 C160.5225,234.6895 161.7355,235.3235 162.8505,235.8615 C166.2555,237.5005 168.7195,238.1935 170.2815,238.4345 C170.3495,238.4465 170.4225,238.4585 170.4845,238.4675 C168.9445,235.4735 164.7585,229.7345 155.2485,221.9255 C145.9345,214.2715 136.4535,208.6375 131.5705,206.4375 C131.5615,206.4345 131.5525,206.4295 131.5425,206.4255 C135.6005,213.3865 139.8115,218.7905 143.1965,221.9275"
+                                      id="Fill-3" fill="#7DCF32"></path>
+                                <path d="M298.7991,185.8396 C291.8631,188.0646 284.4371,184.2466 282.2121,177.3116 C275.7181,157.0696 249.6181,130.6056 212.4061,106.5006 C192.2071,93.4216 172.3591,84.3066 155.0101,80.1396 C150.9161,79.1556 147.0341,78.4856 143.4501,78.1196 C134.7571,77.2306 127.8321,78.1446 124.0151,80.8376 C121.6671,82.4946 120.4541,85.3706 120.3811,89.4286 C120.2591,96.2616 122.6851,103.0866 125.8201,109.0636 C126.3181,110.0106 126.8351,110.9476 127.3651,111.8766 C127.4711,111.8436 127.5771,111.8146 127.6831,111.7806 C134.8971,109.5336 142.5921,108.8056 150.1231,109.0596 C174.6451,109.8866 198.6841,122.4156 218.8601,135.3606 C218.9261,135.4026 218.9971,135.4486 219.0621,135.4916 C233.0121,144.4696 256.1161,161.6856 261.7121,180.2586 C262.0491,181.3786 262.3321,182.5026 262.5361,183.6306 C263.8521,190.8996 262.3121,197.7286 258.0871,203.3786 C255.2451,207.1766 246.5961,218.7416 228.8971,217.6486 C225.7551,217.4536 222.5311,216.8496 219.4811,216.0876 C203.4741,212.0976 188.2111,202.6566 174.5851,193.6766 C170.1511,190.7556 165.7951,187.7116 161.5291,184.5466 C146.9121,173.6986 133.1501,161.4726 121.1721,147.7416 C121.1051,147.8256 121.0591,147.9206 121.0041,148.0076 C119.5961,150.2906 118.6431,152.9056 118.2371,155.5576 C117.5591,159.9756 117.5871,164.3066 118.1081,168.7416 C118.4111,171.3256 118.8761,173.8846 119.4591,176.4186 L119.4591,176.4156 C119.4601,176.4116 119.4601,176.4036 119.4621,176.3966 C125.8201,177.0136 132.4731,178.5816 139.2371,181.0846 C147.1231,184.0026 159.5051,191.5906 170.0461,199.9706 C183.5801,210.7296 192.2121,220.9936 195.7441,230.5156 C195.9871,231.1726 196.2101,231.8276 196.4051,232.4766 C198.7771,240.3806 197.6031,248.1106 193.1001,254.2416 C188.5081,260.4966 181.9351,264.1506 174.0881,264.8086 C169.4021,265.2016 164.8291,264.4346 160.3461,263.1096 C144.8021,258.5156 130.0351,247.3726 119.5751,235.1816 C112.1581,226.5336 106.2211,216.3926 101.6231,205.8116 C101.6051,205.8376 101.5881,205.8626 101.5721,205.8906 C100.6461,206.6716 99.9311,207.5526 99.4421,208.5006 C97.1701,212.9016 97.3221,221.3566 101.5621,229.2306 C105.9511,237.3796 112.8241,250.2606 134.3191,265.1246 C134.7051,265.3926 135.0911,265.6566 135.4851,265.9256 C135.5091,265.9436 135.5341,265.9606 135.5601,265.9786 C141.5161,270.0986 143.0391,278.2566 138.9551,284.2506 C134.8511,290.2696 126.6461,291.8226 120.6281,287.7206 C120.1821,287.4186 119.7401,287.1116 119.3001,286.8086 C98.5581,272.4646 86.6871,257.2346 78.3391,241.7376 C69.7831,225.8516 69.5851,208.8416 76.0011,196.4066 C79.6941,189.2466 85.6751,183.6856 93.2731,180.2086 C93.2391,180.0446 93.2101,179.8836 93.1781,179.7226 C93.1861,179.7186 93.1951,179.7156 93.2031,179.7126 C93.2441,179.9116 93.2921,180.1146 93.3351,180.3146 C92.8631,178.0256 92.4671,175.7186 92.1661,173.3906 C90.8421,163.0946 91.1211,152.8436 94.4141,142.9206 C95.6951,139.0626 97.5621,135.5956 99.9991,132.3496 C100.5601,131.6036 103.7781,126.7856 105.0271,125.7926 L105.0271,125.7906 C103.2361,122.7566 101.6221,119.6196 100.3611,116.3236 C98.4451,111.3186 96.5861,106.2676 95.3711,101.0386 C94.1641,95.8416 93.5831,90.4666 94.1061,85.1436 C94.5301,80.8446 95.6611,76.6136 97.5221,72.7126 C98.9581,69.7036 100.8231,66.9056 103.0791,64.4496 C104.7881,62.5896 106.7441,60.7466 108.8131,59.2856 C117.2931,53.3026 128.8081,50.7196 142.6671,51.5936 C143.5351,51.6486 144.4111,51.7146 145.2971,51.7946 C150.3091,52.2586 155.6101,53.1556 161.1681,54.4916 C181.3881,59.3456 204.0651,69.6766 226.7421,84.3596 C226.7871,84.3876 226.8331,84.4186 226.8771,84.4466 C252.0461,100.7576 295.8211,133.3906 307.3281,169.2526 C309.5541,176.1896 305.7361,183.6136 298.7991,185.8396 M170.0791,0.0006 C76.1461,0.0006 0.0001,76.1466 0.0001,170.0776 C0.0001,264.0096 76.1461,340.1566 170.0791,340.1566 C264.0111,340.1566 340.1581,264.0096 340.1581,170.0776 C340.1581,76.1466 264.0111,0.0006 170.0791,0.0006"
+                                      id="Fill-5" fill="#7DCF32"></path>
+                                <path d="M613.3333,33.7263 L651.4293,27.2023 L651.4293,187.6683 C651.4293,196.1013 654.1703,199.3623 661.8433,199.3623 L658.8293,231.9983 C630.8753,231.9983 613.3333,222.4823 613.3333,191.4743 L613.3333,33.7263 Z"
+                                      id="Fill-7" fill="#7DCF32"></path>
+                                <mask id="mask-2" fill="white">
+                                    <use xlink:href="#path-1"></use>
+                                </mask>
+                                <g id="Clip-10"></g>
+                                <path d="M688.933,228.736 L727.03,228.736 L727.03,90.027 L688.933,90.027 L688.933,228.736 Z M707.845,28.287 C719.08,28.287 730.32,36.992 730.32,49.503 C730.32,61.741 719.903,71.26 707.845,71.26 C695.238,71.26 685.919,61.741 685.919,49.503 C685.919,36.992 696.333,28.287 707.845,28.287 Z"
+                                      id="Fill-9" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M856.1145,159.654 C856.1145,133.814 839.6695,119.128 821.5805,119.128 C799.9295,119.128 790.8845,140.072 790.8845,159.654 C790.8845,180.325 800.7535,199.636 821.5805,199.636 C841.5885,199.636 856.1145,183.314 856.1145,159.654 Z M855.0195,216.493 C845.4265,226.287 832.5425,232.271 816.3725,232.271 C776.6345,232.271 751.4175,197.187 751.4175,159.654 C751.4175,122.663 775.5355,86.493 816.3725,86.493 C831.4485,86.493 843.7835,91.931 853.3755,100.906 L853.3755,30.738 L891.4705,30.738 L891.4705,228.737 L857.4845,228.737 L855.0195,216.493 Z"
+                                      id="Fill-11" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M1009.5872,142.5183 C1004.9292,121.5793 992.8682,119.1283 982.1822,119.1283 C971.2162,119.1283 959.4322,124.0253 955.0482,142.5183 L1009.5872,142.5183 Z M1040.0112,221.6663 C1023.8402,229.0073 1009.0382,232.2713 990.6752,232.2713 C942.1652,232.2713 915.8542,199.0873 915.8542,159.6543 C915.8542,120.4883 939.9732,86.4933 982.1822,86.4933 C1024.6612,86.4933 1047.6852,119.1283 1047.6852,167.2683 L953.9502,167.2683 C956.6912,184.4043 966.0092,199.6363 991.7742,199.6363 C1007.1202,199.6363 1019.1802,196.1013 1032.3352,190.6593 L1040.0112,221.6663 Z"
+                                      id="Fill-12" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M527.2932,128.6281 L533.8682,166.4341 L547.2922,166.4341 L547.2922,190.9341 C533.3152,196.1021 519.8842,198.2721 505.6322,198.2721 C465.0692,198.2721 446.7062,165.3641 446.7062,134.6331 C446.7062,103.8981 467.8112,70.7201 508.6472,70.7201 C526.7352,70.7201 543.4552,74.2531 561.8182,81.8681 L573.6042,50.8611 C550.8552,40.7971 531.6712,36.7201 508.6472,36.7201 C446.4322,36.7201 405.3212,81.5951 405.3212,134.6331 C405.3212,187.6681 443.1442,232.2711 505.6322,232.2711 C532.7672,232.2711 558.2562,226.8311 584.5672,211.8721 L584.5672,166.4341 L584.5672,128.6281 L527.2932,128.6281 Z"
+                                      id="Fill-13" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M597.8342,311.8405 C601.9312,313.7475 605.8142,315.0895 609.9802,315.0895 C615.6322,315.0895 619.5872,311.9115 619.5872,307.3195 C619.5872,296.0915 597.6222,299.0585 597.6222,283.2385 C597.6222,274.4115 604.8962,269.9615 612.2422,269.9615 C616.4082,269.9615 620.1512,270.9485 624.1772,272.7165 L622.2702,277.9415 C618.8802,276.4585 615.8442,275.6115 612.2422,275.6115 C606.9442,275.6115 604.0502,278.7895 604.0502,283.2385 C604.0502,293.8315 626.0132,291.7835 626.0132,307.3195 C626.0132,315.5135 619.0212,320.7395 609.9802,320.7395 C605.3202,320.7395 600.8002,319.4685 596.0682,317.1375 L597.8342,311.8405 Z"
+                                      id="Fill-14" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M639.217,288.9587 L634.344,288.9587 L634.344,284.5087 L639.217,284.5087 L639.217,275.9627 L645.221,274.1267 L645.221,284.5087 L653.624,284.5087 L653.624,288.9587 L645.221,288.9587 L645.221,309.0867 C645.221,313.1817 646.775,315.3027 650.658,315.3027 C652.142,315.3027 653.695,315.0197 655.108,314.5247 L656.238,319.8217 C654.26,320.3877 652.354,320.7397 650.305,320.7397 C643.879,320.7397 639.217,317.1377 639.217,309.5797 L639.217,288.9587 Z"
+                                      id="Fill-15" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M665.6282,284.509 L671.6312,284.509 L671.6312,306.19 C671.6312,311.699 673.8202,315.303 678.4822,315.303 C684.6252,315.303 688.9342,310.146 688.9342,300.966 L688.9342,284.509 L694.9382,284.509 L694.9382,319.822 L689.8522,319.822 L689.1452,314.455 C686.6742,318.619 682.7202,320.74 677.3522,320.74 C670.2892,320.74 665.6282,315.584 665.6282,307.251 L665.6282,284.509 Z"
+                                      id="Fill-16" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M735.0481,302.0954 C735.0481,293.9734 729.6811,289.0294 723.6781,289.0294 C717.5331,289.0294 712.8721,294.4674 712.8721,302.1654 C712.8721,309.7924 717.4631,315.3034 723.6781,315.3034 C729.8211,315.3034 735.0481,310.1464 735.0481,302.0954 Z M735.1191,314.5954 C732.5051,318.4074 728.4091,320.7404 723.2541,320.7404 C713.2971,320.7404 706.6581,312.1944 706.6581,302.1654 C706.6581,292.2064 713.3671,283.5914 723.2541,283.5914 C728.1981,283.5914 732.0821,285.7824 734.6951,289.1714 L734.6951,268.4074 L740.6971,268.4074 L740.6971,319.8224 L735.7551,319.8224 L735.1191,314.5954 Z"
+                                      id="Fill-17" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M778.762,298.2107 C777.702,291.5007 773.818,289.0287 768.945,289.0287 C764.355,289.0287 760.258,291.7837 758.988,298.2107 L778.762,298.2107 Z M782.152,318.4077 C778.268,320.1047 774.596,320.7397 770.498,320.7397 C759.129,320.7397 752.419,312.3347 752.419,302.2367 C752.419,292.0667 758.916,283.5917 768.945,283.5917 C779.892,283.5917 784.907,292.1377 784.907,302.7307 L758.635,302.7307 C758.847,309.7227 762.942,315.3027 770.57,315.3027 C774.242,315.3027 777.562,314.4547 780.951,313.1107 L782.152,318.4077 Z"
+                                      id="Fill-18" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M796.2747,285.2155 L801.3597,284.5085 L801.9957,289.9465 C804.4667,285.7815 808.4207,283.5915 813.8597,283.5915 C820.9217,283.5915 825.5837,288.7475 825.5837,297.0795 L825.5837,319.8215 L819.5807,319.8215 L819.5807,298.1395 C819.5807,292.6305 817.3197,289.0285 812.6597,289.0285 C806.5147,289.0285 802.2777,294.1855 802.2777,303.3645 L802.2777,319.8215 L796.2747,319.8215 L796.2747,285.2155 Z"
+                                      id="Fill-19" fill="#7DCF32" mask="url(#mask-2)"></path>
+                                <path d="M839.9172,288.9587 L835.0432,288.9587 L835.0432,284.5087 L839.9172,284.5087 L839.9172,275.9627 L845.9202,274.1267 L845.9202,284.5087 L854.3232,284.5087 L854.3232,288.9587 L845.9202,288.9587 L845.9202,309.0867 C845.9202,313.1817 847.4742,315.3027 851.3572,315.3027 C852.8412,315.3027 854.3952,315.0197 855.8072,314.5247 L856.9372,319.8217 C854.9592,320.3877 853.0532,320.7397 851.0042,320.7397 C844.5772,320.7397 839.9172,317.1377 839.9172,309.5797 L839.9172,288.9587 Z"
+                                      id="Fill-20" fill="#7DCF32" mask="url(#mask-2)"></path>
+
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-md-2">
+                        <a href="https://glide.co.uk/why-glide" class="btn">Why Glide?</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="https://glide.co.uk/previous-tenants" class="btn">Previous tenants used Glide?</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="https://glide.co.uk/services" class="btn">Service</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="https://glide.co.uk/tariffs" class="btn">Tarrifs</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="https://glide.co.uk/contact-and-help" class="btn">Contact & Help</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="https://glide.co.uk/login" class="btn">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="section">
+    <div class="section-slashed"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+
+                <div class="control mobile d-block d-md-none">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="btn home active"><i class="fas fa-home"></i> Home</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="btn community"><i class="fas fa-users"></i> Community</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="btn press"><i class="far fa-newspaper"></i> Press Release</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="posts">
+
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="control d-none d-md-block">
+                    <div class="btn home active"><i class="fas fa-home"></i> Home</div>
+                    <div class="btn community"><i class="fas fa-users"></i> Community</div>
+                    <div class="btn press"><i class="far fa-newspaper"></i> Press Release</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="post" id="template">
+    <div class="post-information">
+        <div class="row">
+            <div class="col-6">
+                <span><i class="fas fa-user-circle"></i> <span class="name"></span></span>
+            </div>
+            <div class="col-6">
+                <p class="date"><i class="fas fa-clock"></i> <span class="date-text"></span></p>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <h1 class="title"></h1>
+        <div class="pre-body"></div>
+        <div class="body"></div>
+
+        <button class="btn">Read more</button>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script>
+    let posts = [];
+    // GET, POST, PUT, PATCH, DELETE, OPTIONS
+
+    $('.home').on('click', () => {
+        getPosts();
+    });
+
+    $('.community').on('click', () => {
+        getPosts('community');
+    });
+
+    $('.press').on('click', () => {
+        getPosts('press');
+    });
+
+    function getPosts(filter) {
+
+        if (filter === undefined || filter === '') {
+            axios.get('http://localhost/api.php?function=posts').then(
+                response => {
+                    let data = response.data;
+                    posts = data.posts;
+
+                    $('.active').removeClass('active');
+                    $('.home').addClass('active');
+
+                    $('.posts').empty();
+                    posts.forEach((post, index) => {
+                        addPost(post);
+                    });
+                }
+            );
+        } else {
+            axios.get('http://localhost/api.php?function=posts&filter=' + filter).then(
+                response => {
+                    let data = response.data;
+                    posts = data.posts;
+
+                    $('.active').removeClass('active');
+                    $('.' + filter).addClass('active');
+
+                    $('.posts').empty();
+                    posts.forEach((post, index) => {
+                        addPost(post);
+                    });
+                }
+            );
+        }
+    }
+
+    getPosts();
+
+    function addPost(post) {
+        let $post = $('#template').clone();
+        $post.removeAttr('id');
+
+        $post.find('.name').text(post.author.first_name + ' ' + post.author.last_name);
+        $post.find('.date-text').text(new Date(post.date).toDateString());
+        $post.find('.content .pre-body').html(post.excerpt);
+        $post.find('.content .body').html(post.content);
+        $post.find('.content .title').html(post.title);
+        $post.find('.more-link').remove();
+
+        $('.posts').append($post);
+    }
+
+    $(document).ready(() => {
+        $('.body').hide();
+        $(document.body).on('click', 'button', function () {
+            let $post = $(this).closest('.post');
+            let $prebody = $post.find('.pre-body');
+            let $body = $post.find('.body');
+
+            $prebody.toggle();
+            $body.toggle();
+        });
+    });
+
+</script>
