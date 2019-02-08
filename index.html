@@ -380,7 +380,7 @@
     function getPosts(filter) {
 
         if (filter === undefined || filter === '') {
-            axios.get('http://localhost/api.php?function=posts').then(
+            axios.get('api.php?function=posts').then(
                 response => {
                     let data = response.data;
                     posts = data.posts;
@@ -395,7 +395,7 @@
                 }
             );
         } else {
-            axios.get('http://localhost/api.php?function=posts&filter=' + filter).then(
+            axios.get('api.php?function=posts&filter=' + filter).then(
                 response => {
                     let data = response.data;
                     posts = data.posts;
