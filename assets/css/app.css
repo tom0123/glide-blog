@@ -1,0 +1,207 @@
+html, body {
+    margin: 0;
+    background: -webkit-linear-gradient(left, #93ffe6 30%, #38ffff 90%);
+
+}
+
+::-webkit-scrollbar {
+    width: 0px; /* remove scrollbar space */
+    background: transparent; /* optional: just make scrollbar invisible */
+}
+
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+#template {
+    display: none;
+}
+
+.section {
+    position: relative;
+    padding-bottom: 150px;
+}
+
+.glide-logo {
+    fill: grey;
+}
+
+.section-slashed {
+    width: 100%;
+    height: 20vh;
+    background-color: #7DCF32;
+    position: absolute;
+    bottom: 0px;
+    transform: skewY(-0deg)
+}
+
+.section-slashed::before {
+    content: '';
+    background-color: #7DCF32;
+    display: inline-block;
+    width: 100%;
+    height: 20vh;
+    position: absolute;
+    top: -210px;
+    transform: skewY(-3deg);
+}
+
+.container {
+    margin-top: 40px;
+    position: relative;
+}
+
+.post {
+    padding: 20px;
+    border: 2px solid white;
+    margin: 0px;
+    background: white;
+    margin-bottom: 40px;
+    box-shadow: 0px 3px 19px 2px #52525214;
+    border-radius: 30px;
+    position: relative;
+    scroll-snap-align: start;
+}
+
+.post img {
+    width: 100%;
+    border: 10px solid white;
+    border-radius: 32px;
+}
+
+
+.post .content {
+    padding: 20px;
+    border: 0;
+}
+
+.post .content p {
+    line-height: 1.5;
+    margin: 0;
+}
+
+.post .content h1 {
+    color: #7DCF32;
+    margin-top: 0;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 0px;
+}
+
+.control {
+    width: 300px;
+    position: fixed;
+}
+
+.control .btn {
+    margin-bottom: 10px;
+}
+
+.control.mobile {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.control.mobile .btn {
+    text-align: center;
+}
+
+.btn {
+    width: 100%;
+    text-align: left;
+}
+
+.btn.active {
+    background-color: white;
+    box-shadow: 0 4px 4px rgba(50, 50, 93, .1);
+    color: #7DCF32;
+    font-weight: bold;
+}
+
+.btn:hover {
+    color: #7DCF32;
+    background: #edf1f4;
+}
+
+.post .content .body h3 {
+    font-size: 0.95rem;
+    margin: 20 0;
+}
+
+.post .date {
+    margin: 0;
+    text-align: right;
+}
+
+.post .post-information i.fa-user-circle {
+    font-size: 32px;
+}
+
+.post .post-information span {
+    vertical-align: super;
+}
+
+.post .post-information .date-text {
+    vertical-align: bottom;
+}
+
+.post .post-information span span {
+    margin-left: 10px;
+}
+
+.post .content .body iframe {
+    width: 100%;
+    height: 350px;
+}
+
+.post .content .tag-viewport {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.post .content .btn {
+    background-color: #f9f9f9;
+    margin-top: 30px;
+    width: auto;
+    padding: 10px 30px;
+    font-weight: bold;
+}
+
+.post .content .btn:hover {
+    background-color: #7ecf31;
+    color: white;
+}
+
+.post .content .btn:focus {
+    box-shadow: none;
+}
+
+.post .content .tag-viewport .tag {
+    padding: 5px 30px;
+    background-color: #7DCF32;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    border-radius: 30px;
+    font-size: 12px;
+}
+
+.post .content .body div {
+    width: auto !important;
+}
+
+.posts {
+    height: 79vh;
+    overflow-y: scroll;
+    border-radius: 30px;
+    padding: 20px;
+    /*scroll-snap-type: y mandatory;*/
+}
+
+.header {
+    width: 100%;
+    top: 0;
+    z-index: 10000;
+}
